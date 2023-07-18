@@ -14,8 +14,8 @@
 #include <errno.h>
 #include <signal.h>
 void termenate(char **string);
-char *create_buff();
+void create_buff(char **buffer);
 void divide_buffer(char **words, char *buffer, char p);
-void c_strcpy(char *source, char *dest, int c);
+void c_strcpy(char *source, char **dest, int c);
 void terminatewnull(char **words);
 #endif
