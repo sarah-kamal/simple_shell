@@ -50,8 +50,6 @@ void divide_buffer(char **words, char *buffer, char p)
 	}
 	if (sw > 0)
 	{
-		fflush(stdout);
-		printf("inif2\n");
 		create_buff(&words[counter]);
 		c_strcpy(buffer - sw, &words[counter], sw);
 		counter++;
