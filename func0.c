@@ -27,8 +27,6 @@ void c_strcpy(char *source, char **desti, int c)
 		dest[i] = source[i];
 	}
 	dest[i] = '\0';
-	fflush(stdout);
-	printf("dest%s\n",dest);
 }
 void divide_buffer(char **words, char *buffer, char p)
 {
@@ -38,12 +36,8 @@ void divide_buffer(char **words, char *buffer, char p)
 	sw = 0;
 	while (*buffer != '\0')
 	{
-		fflush(stdout);
-		printf("inwhile");
 		if (*buffer == p )
 		{
-			fflush(stdout);
-			printf("InIF");
 			create_buff(&words[counter]);
 			c_strcpy(buffer, &words[counter], sw);
 			counter++;
@@ -61,8 +55,6 @@ void divide_buffer(char **words, char *buffer, char p)
 		create_buff(&words[counter]);
 		c_strcpy(buffer - sw, &words[counter], sw);
 		counter++;
-		 fflush(stdout);
-		 printf("words[%i]= %s\n", counter - 1, words[counter - 1]);
 	 }
 
 }
