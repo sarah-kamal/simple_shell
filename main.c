@@ -28,21 +28,13 @@ int main(int argc, char *argv[])
 		exit(91);
 	}
 	termenate(&buffer);
-	fflush(stdout);
-	printf("buffer after read %s\n", buffer);
 	id = fork();
 	if (id == -1)
 		exit(80);
 	if (id == 0)
 	{
-		fflush(stdout);
-		printf("this is child\n");
 		divide_buffer(words, buffer, ' ');
-		fflush(stdout);
-		printf("this is buff%s\n",buffer);
 		terminatewnull(words);
-		fflush(stdout);
-		printf("%s\n",words[0]);
 		ex = execve(words[0], words, environ);
 		if (ex == -1)
 			 perror("./shell");
