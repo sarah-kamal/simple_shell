@@ -24,36 +24,45 @@ void c_strcpy(char *source, char **desti, int c)
 	char *dest = *desti;
 	for (i = 0; i < c; i++)
 	{
-		dest[i] = source[i];
+		if (source[i] != '\0')
+			dest[i] = source[i];
 	}
 	dest[i] = '\0';
 }
 void divide_buffer(char **words, char *buffer, char p)
 {
-	int counter, sw, y;
+	int counter, sw, sp;
 	counter = 0;
-	y = 0;
+	sp = 0;
 	sw = 0;
 	while (*buffer != '\0')
 	{
 		if (*buffer == p )
 		{
+			sp = 1;
+			buffer++;
+			while(*buffer == p)
+			{
+				buffer++;
+				sp++;
+			}
 			create_buff(&words[counter]);
-			c_strcpy(buffer, &words[counter], sw);
+			c_strcpy(buffer - sw - sp, &words[counter], sw);
 			counter++;
 			sw = 0;
 		}
 		else
+		{
 			sw++;
-		buffer++;
-		y++;
+			buffer++;
+		}
 	}
 	if (sw > 0)
 	{
 		create_buff(&words[counter]);
 		c_strcpy(buffer - sw, &words[counter], sw);
 		counter++;
-	 }
+	}
 
 }
 void terminatewnull(char **words)
