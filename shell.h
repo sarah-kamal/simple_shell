@@ -20,4 +20,7 @@ void c_strcpy(char *source, char **dest, int c);
 void terminatewnull(char **words);
 int interactive(char **);
 void handleslash(char **);
+int ifexit(char *str);
+int ifcommandexsist(char *cmd);
+void freeo(char **, char **);
 #endif

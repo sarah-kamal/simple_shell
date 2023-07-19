@@ -16,6 +16,7 @@ int interactive(char **environ)
 		if (write(STDOUT_FILENO, "$", 1) == -1)
 		{
 			printf("Failure to write\n");
+			freeo(&buffer, words);
 			exit(90);
 		}
 	}
@@ -25,24 +26,41 @@ int interactive(char **environ)
 	if (readcm == -1)
 	{
 		printf("Failure to read\n");
+		freeo(&buffer, words);
 		exit(91);
 	}
 	termenate(&buffer);
-	id = fork();
-	if (id == -1)
-		exit(80);
-	if (id == 0)
+	divide_buffer(words, buffer, ' ');
+	terminatewnull(words);
+	if(ifexit(words[0]) == 0)
 	{
-		divide_buffer(words, buffer, ' ');
-		terminatewnull(words);
-		handleslash(&words[0]);
-		ex = execve(words[0], words, environ);
-		if (ex == -1)
-			 perror("./shell");
+		return (0); 
+	}
+	handleslash(&words[0]);
+	if(ifcommandexsist(words[0]))
+	{
+		id = fork();
+		if (id == -1)
+		{	
+			freeo(&buffer, words);
+			exit(80);
+		}
+		if (id == 0)
+		{
+			ex = execve(words[0], words, environ);
+			if (ex == -1)
+				 perror("./shell");
+		}
+		else
+		{
+			wait(NULL);
+		}
+		freeo(&buffer, words);
+		return (1);
 	}
 	else
 	{
-		wait(NULL);
+		freeo(&buffer, words);
+		return (1);
 	}
-	return 0;
 }

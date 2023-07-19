@@ -14,6 +14,6 @@ int main(int argc, char *argv[])
 	(void)argc;
 	do{
 		i = interactive(environ);
-	}while(i != 100);
+	}while(i != 0);
 	return 0;
 }
