@@ -2,6 +2,9 @@
 
 void create_buff(char **buffer)
 {
+	 if (buffer == NULL) {
+        exit(EXIT_FAILURE);
+    }
 
 	*buffer = malloc(sizeof(char) * 1024);
 	if (!(*buffer))

@@ -22,6 +22,6 @@ int interactive(char **);
 void handleslash(char **);
 int ifexit(char *str);
 int ifcommandexsist(char *cmd);
-void freeo(char *, char **);
+void freeo(char **, char **);
 char* custom_getline();
 #endif

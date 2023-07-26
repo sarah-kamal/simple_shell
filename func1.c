@@ -71,9 +71,9 @@ int ifcommandexsist(char *cmd)
 	else
 		return (0);
 }
-void freeo(char *str, char **str1)
+void freeo(char **str, char **str1)
 {
-	if (str != NULL)
+	if (*str != NULL)
 		free(str);
 	while (*str1)
 	{

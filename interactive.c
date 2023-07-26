@@ -8,7 +8,7 @@
  */
 int interactive(char **environ)
 {
-	int id, ex;
+	int id, ex, i;
 	char *buffer;
 	char *words[1000];
 	if (isatty(STDIN_FILENO))
@@ -16,7 +16,7 @@ int interactive(char **environ)
 		if (write(STDOUT_FILENO, "$", 1) == -1)
 		{
 			printf("Failure to write\n");
-			freeo(buffer, words);
+			freeo(&buffer, words);
 			exit(90);
 		}
 	}
@@ -27,7 +27,7 @@ int interactive(char **environ)
 	{
 
 		printf("Failure to read\n");
-		freeo(buffer, words);
+		freeo(&buffer, words);
 		exit(91);
 	}
 	if(feof(stdin))
@@ -47,7 +47,7 @@ int interactive(char **environ)
 		id = fork();
 		if (id == -1)
 		{	
-			freeo(buffer, words);
+			freeo(&buffer, words);
 			exit(80);
 		}
 		if (id == 0)
@@ -61,6 +61,12 @@ int interactive(char **environ)
 			wait(NULL);
 		}
 	}
-	freeo(buffer, words);
+	free(buffer);
+	i = 0;
+	while(words[i])
+	{
+		free(words[i]);
+		i++;
+	}
 	return (1);
 }
