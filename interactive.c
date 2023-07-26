@@ -56,16 +56,10 @@ int interactive(char **environ)
 			ex = execve(words[0], words, environ);
 			if (ex == -1)
 				 perror("./shell");
-			      free(buffer);
-        for ( i = 0; i < numofw; i++)
-                 free(words[i]);
 		}
 		else
 		{
 			wait(NULL);
-			      free(buffer);
-        for ( i = 0; i < numofw; i++)
-                 free(words[i]);
 		}
 	}
 	      free(buffer);
