@@ -15,13 +15,14 @@
 #include <signal.h>
 void termenate(char **string);
 void create_buff(char **buffer);
-void divide_buffer(char **words, char *buffer, char p);
+void divide_buffer(char ***words, char *buffer, char p, int *);
 void c_strcpy(char *source, char **dest, int c);
 void terminatewnull(char **words);
 int interactive(char **);
 void handleslash(char **);
 int ifexit(char *str);
 int ifcommandexsist(char *cmd);
+char* create_buffer(size_t size);
 void freeo(char **, char **);
 char* custom_getline();
 #endif

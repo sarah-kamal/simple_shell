@@ -8,37 +8,37 @@
  */
 int interactive(char **environ)
 {
-	int id, ex, i;
+	int id, ex, i, numofw;
 	char *buffer;
-	char *words[1000];
+	char **words;
 	if (isatty(STDIN_FILENO))
 	{
 		if (write(STDOUT_FILENO, "$", 1) == -1)
 		{
 			printf("Failure to write\n");
-			freeo(&buffer, words);
 			exit(90);
 		}
 	}
 	signal(SIGINT, SIG_DFL);
-	create_buff(&buffer);
 	buffer = custom_getline();
 	if (buffer == NULL)
 	{
 
 		printf("Failure to read\n");
-		freeo(&buffer, words);
+		free(buffer);
 		exit(91);
 	}
 	if(feof(stdin))
 	{
+		free(buffer);
 		return (0);
 	}
-	termenate(&buffer);
-	divide_buffer(words, buffer, ' ');
-	terminatewnull(words);
+	divide_buffer(&words, buffer, ' ', &numofw);
 	if(ifexit(words[0]) == 0)
 	{
+		free(buffer);
+                for ( i = 0; i < numofw; i++)
+			free(words[i]);
 		return (0); 
 	}
 	handleslash(&words[0]);
@@ -46,8 +46,9 @@ int interactive(char **environ)
 	{
 		id = fork();
 		if (id == -1)
-		{	
-			freeo(&buffer, words);
+		{	free(buffer);
+       			for ( i = 0; i < numofw; i++)
+				free(words[i]);
 			exit(80);
 		}
 		if (id == 0)
@@ -55,18 +56,20 @@ int interactive(char **environ)
 			ex = execve(words[0], words, environ);
 			if (ex == -1)
 				 perror("./shell");
+			      free(buffer);
+        for ( i = 0; i < numofw; i++)
+                 free(words[i]);
 		}
 		else
 		{
 			wait(NULL);
+			      free(buffer);
+        for ( i = 0; i < numofw; i++)
+                 free(words[i]);
 		}
 	}
-	free(buffer);
-	i = 0;
-	while(words[i])
-	{
-		free(words[i]);
-		i++;
-	}
+	      free(buffer);
+        for ( i = 0; i < numofw; i++)
+                 free(words[i]);
 	return (1);
 }

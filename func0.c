@@ -1,12 +1,21 @@
 #include "shell.h"
+char* create_buffer(size_t size) {
+    char* buffer = (char*)malloc(size);
 
+    if (buffer == NULL) {
+        perror("Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
+
+    return buffer;
+}
 void create_buff(char **buffer)
 {
 	 if (buffer == NULL) {
         exit(EXIT_FAILURE);
     }
 
-	*buffer = malloc(sizeof(char) * 1024);
+	*buffer =(char*)malloc(sizeof(char) * 1024);
 	if (!(*buffer))
 	{
 		free(buffer);
@@ -32,8 +41,9 @@ void c_strcpy(char *source, char **desti, int c)
 	}
 	dest[i] = '\0';
 }
-void divide_buffer(char **words, char *buffer, char p)
+void divide_buffer(char ***word, char *buffer, char p, int *no)
 {
+	char **words = *word;
 	int counter, sw, sp;
 	counter = 0;
 	sp = 0;
@@ -49,7 +59,7 @@ void divide_buffer(char **words, char *buffer, char p)
 				buffer++;
 				sp++;
 			}
-			create_buff(&words[counter]);
+			words[counter] = create_buffer(sw + 1);
 			c_strcpy(buffer - sw - sp, &words[counter], sw);
 			counter++;
 			sw = 0;
@@ -62,17 +72,10 @@ void divide_buffer(char **words, char *buffer, char p)
 	}
 	if (sw > 0)
 	{
-		create_buff(&words[counter]);
+		words[counter] = create_buffer(sw + 1);
 		c_strcpy(buffer - sw, &words[counter], sw);
 		counter++;
 	}
-
-}
-void terminatewnull(char **words)
-{
-	int i;
-	i = 0;
-	while (words[i])
-		i++;
-	words[i] = NULL;
+	words[counter] = NULL;
+	*no = counter;
 }

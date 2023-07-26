@@ -56,6 +56,8 @@ void handleslash(char **str)
 	{
 		strcat(y, *str);
 	}
+	free(*str);
+	*str = NULL;
 	*str = y;
 }
 int ifexit(char *str)
