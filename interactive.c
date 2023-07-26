@@ -62,6 +62,11 @@ int interactive(char **environ)
 			wait(NULL);
 		}
 	}
+	else
+	{
+		fflush(stdout);
+		printf("./shell: No such file or directory\n");
+	}
 	      free(buffer);
         for ( i = 0; i < numofw; i++)
                  free(words[i]);
