@@ -8,7 +8,7 @@
  */
 int interactive(char **environ)
 {
-	int id, readcm, ex;
+	int id, ex;
 	char *buffer;
 	char *words[1000];
 	if (isatty(STDIN_FILENO))
@@ -16,18 +16,23 @@ int interactive(char **environ)
 		if (write(STDOUT_FILENO, "$", 1) == -1)
 		{
 			printf("Failure to write\n");
-			freeo(&buffer, words);
+			freeo(buffer, words);
 			exit(90);
 		}
 	}
 	signal(SIGINT, SIG_DFL);
 	create_buff(&buffer);
-	readcm = read(STDIN_FILENO, buffer, 1024);
-	if (readcm == -1)
+	buffer = custom_getline();
+	if (buffer == NULL)
 	{
+
 		printf("Failure to read\n");
-		freeo(&buffer, words);
+		freeo(buffer, words);
 		exit(91);
+	}
+	if(feof(stdin))
+	{
+		return (0);
 	}
 	termenate(&buffer);
 	divide_buffer(words, buffer, ' ');
@@ -42,7 +47,7 @@ int interactive(char **environ)
 		id = fork();
 		if (id == -1)
 		{	
-			freeo(&buffer, words);
+			freeo(buffer, words);
 			exit(80);
 		}
 		if (id == 0)
@@ -55,12 +60,7 @@ int interactive(char **environ)
 		{
 			wait(NULL);
 		}
-		freeo(&buffer, words);
-		return (1);
 	}
-	else
-	{
-		freeo(&buffer, words);
-		return (1);
-	}
+	freeo(buffer, words);
+	return (1);
 }
